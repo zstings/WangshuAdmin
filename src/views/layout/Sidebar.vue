@@ -1,6 +1,6 @@
 <template>
-  <div class="layout-sidebar flex flex-col" :class="{ 'layout-sidebar-collapse': !collapse }">
-    <el-menu :default-active="defaultActive" :router="true" :collapse="collapse">
+  <div class="layout-sidebar flex flex-col">
+    <el-menu :default-active="defaultActive" class="layout-menu-vertical" :router="true" :collapse="collapse">
       <el-menu-item index="/ipBlack">
         <el-icon><User /></el-icon>
         <span> IP黑名单</span>
@@ -46,7 +46,7 @@ window.addEventListener('resize', setCollapse);
   position: relative;
   overflow: auto;
   --el-menu-base-level-padding: 10px;
-  &-collapse {
+  .layout-menu-vertical:not(.el-menu--collapse) {
     width: 220px;
   }
   :deep(.el-menu) {

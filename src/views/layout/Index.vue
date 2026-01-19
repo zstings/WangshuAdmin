@@ -22,7 +22,7 @@ import { useRoute } from 'vue-router';
 import { computed } from 'vue';
 const route = useRoute();
 const breadcrumb = computed(() => {
-  return route.meta.breadcrumb;
+  return typeof route.meta.breadcrumb == 'function' ? route.meta.breadcrumb(route) : route.meta.breadcrumb;
 });
 </script>
 

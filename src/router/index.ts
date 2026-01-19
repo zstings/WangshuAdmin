@@ -30,6 +30,23 @@ const router = createRouter({
           component: () => import('../views/contractSuper/contract/Index.vue'),
           meta: { breadcrumb: ['合同管理', '合同列表'] },
         },
+        {
+          path: '/result',
+          name: 'result',
+          component: () => import('../views/result/Index.vue'),
+          meta: {
+            breadcrumb: (route: any) => {
+              // 其他状态不显示面包线具体状态
+              return ['结果页面', { eooro: '失败页', success: '成功页' }[route.query.type as string]];
+            },
+          },
+        },
+        {
+          path: '/result/eg',
+          name: 'resultEg',
+          component: () => import('../views/result/Eg.vue'),
+          meta: { breadcrumb: ['结果页面', '其他状态示例'] },
+        },
       ],
     },
     {

@@ -13,6 +13,14 @@
         <el-icon><User /></el-icon>
         <span> 合同列表</span>
       </el-menu-item>
+      <el-sub-menu index="1">
+        <template #title>
+          <el-icon><User /></el-icon>
+          <span>结果页面</span>
+        </template>
+        <el-menu-item index="/result">成功页</el-menu-item>
+        <el-menu-item index="/result/eg">其他状态示例</el-menu-item>
+      </el-sub-menu>
     </el-menu>
     <div class="mt-auto mr-[6px] mb-10 ml-auto flex h-[30px] w-[30px] cursor-pointer items-center justify-center rounded-[6px] bg-[#f7f8fa]" @click="collapse = !collapse">
       <el-icon color="#a2aab3" class="#a2aab3"><Operation /></el-icon>

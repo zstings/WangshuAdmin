@@ -1,15 +1,24 @@
 import { fileURLToPath, URL } from 'node:url';
 
-import { defineConfig, PluginOption } from 'vite';
+import { defineConfig, normalizePath, PluginOption } from 'vite';
 import tailwindcss from '@tailwindcss/vite';
 import AutoImport from 'unplugin-auto-import/vite';
 import Components from 'unplugin-vue-components/vite';
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
 import vue from '@vitejs/plugin-vue';
 import VueJsx from '@vitejs/plugin-vue-jsx';
+import { globSync } from 'node:fs';
+
+const epStyles = globSync('element-plus/es/components/*/style/css.mjs', {
+  cwd: fileURLToPath(new URL('./node_modules', import.meta.url)),
+}).map(file => normalizePath(file.replace('.mjs', '')));
 
 // https://vite.dev/config/
 export default defineConfig({
+  // 预加载vue、vue-router、element-plus的css 用于开发环境下按需加载的页面载入速度。
+  optimizeDeps: {
+    include: ['vue', 'vue-router', ...epStyles],
+  },
   plugins: [
     vue(),
     VueJsx(),

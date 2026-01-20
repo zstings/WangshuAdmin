@@ -31,9 +31,9 @@ self.addEventListener('fetch', event => {
         );
       };
       // 通知主线程执行对应的回调
-      const allClients = await clients.matchAll();
-      if (allClients.length > 0) {
-        allClients[0].postMessage(
+      let client = await clients.get(event.clientId);
+      if (client) {
+        client.postMessage(
           {
             type: 'MSW_SIMULATE_REQUEST',
             data: {

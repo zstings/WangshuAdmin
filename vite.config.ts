@@ -9,6 +9,8 @@ import vue from '@vitejs/plugin-vue';
 import VueJsx from '@vitejs/plugin-vue-jsx';
 import { globSync } from 'node:fs';
 
+import { mockswPlugin } from 'mocksw/vite';
+
 const epStyles = globSync('element-plus/es/components/*/style/css.mjs', {
   cwd: fileURLToPath(new URL('./node_modules', import.meta.url)),
 }).map(file => normalizePath(file.replace('.mjs', '')));
@@ -31,6 +33,7 @@ export default defineConfig({
       dirs: ['src/components'],
     }),
     elementuiColorReplace('#155dff'),
+    mockswPlugin(),
   ],
   // server: {
   //   host: '0.0.0.0',

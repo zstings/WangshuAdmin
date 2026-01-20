@@ -21,8 +21,8 @@ importers:
         specifier: ^2.11.4
         version: 2.11.4(vue@3.5.22(typescript@5.9.3))
       mocksw:
-        specifier: ^1.1.3
-        version: 1.1.3
+        specifier: ^1.1.5
+        version: 1.1.5
       vue:
         specifier: ^3.5.22
         version: 3.5.22(typescript@5.9.3)
@@ -1619,8 +1619,8 @@ packages:
   mlly@1.8.0:
     resolution: {integrity: sha512-l8D9ODSRWLe2KHJSifWGwBqpTZXIXTeo8mlKjY+E2HAakaTeNpqAyBZ8GSqLzHgw4XmHmC8whvpjJNMbFZN7/g==}
 
-  mocksw@1.1.3:
-    resolution: {integrity: sha512-cDg5irhIvwTqaEiBi/ueA8TUQNAkERCExARr5C482ErnAEcQFFOSMDnNzTutqfT89AY3BXMSGRKXsk0mHTY2Aw==}
+  mocksw@1.1.5:
+    resolution: {integrity: sha512-cRJF06uVLu0VXoEXNZnKNovxtxcDQr0wByLcz59KnmMp4Ewob7j1kKWiBx/l09r1QhPdgjKJdxARSAbScZLSKA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
 
@@ -3648,7 +3648,7 @@ snapshots:
       pkg-types: 1.3.1
       ufo: 1.6.1
 
-  mocksw@1.1.3: {}
+  mocksw@1.1.5: {}
 
   ms@2.1.3: {}
 

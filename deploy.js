@@ -72,7 +72,7 @@ globSync(buildDir + '/*').forEach(file => {
 });
 console.log(`[INFO] 清空 ${branch} 目录完成`);
 await _runBuild; // 等待构建完成
-cpSync('./docs', buildDir, { recursive: true });
+cpSync('./dist', buildDir, { recursive: true });
 console.log('[INFO] 复制 dist 内容完成');
 // ========== 提交 ==========
 console.log(`[INFO] 开始提交到${branch}分支`);

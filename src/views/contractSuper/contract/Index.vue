@@ -40,7 +40,7 @@
         </template>
       </el-table-column>
       <el-table-column label="合同时间" align="center">
-        <template #default="{ row }"> {{ row.startTime || '--' }} 至 {{ row.endTime || '--' }} </template>
+        <template #default="{ row }"> {{ formats(row.startTime * 1000) }} 至 {{ formats(row.endTime * 1000) }} </template>
       </el-table-column>
       <el-table-column label="备注" align="center">
         <template #default="{ row }">
@@ -169,7 +169,7 @@ const searchConfig = reactive([
   },
 ]);
 function addContract(row: { startTime: string; endTime: string; _startEndTime: [string, string] } | Record<string, any> = {}) {
-  row._startEndTime = row.startTime ? [row.startTime, row.endTime] : [];
+  row._startEndTime = row.startTime ? [formats(row.startTime * 1000), formats(row.endTime * 1000)] : [];
   const formModel = reactive(assignMin({ id: '', name: '', type: 1, price: '', companyId: '', startTime: '', endTime: '', _startEndTime: [], status: '0' }, row));
   const date = new Date();
   const defaultTime: [Date, Date] = [new Date(date.getFullYear(), date.getMonth(), 1, 0, 0, 0), new Date(date.getFullYear(), date.getMonth() + 1, 1, 23, 59, 59)];

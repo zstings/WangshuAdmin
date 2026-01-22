@@ -154,18 +154,27 @@ httpRequest.post('/user/updateCompanyName', async (req, res) => {
 httpRequest.get('/user/getContractList', async (req, res) => {
   await checkToken(req, res);
   const { page = 1, pageSize = 10, ...querys } = req.query;
-  console.log(querys);
   const queryArr: Record<string, any> = Object.keys(querys).reduce((x: any, y: any) => {
     if (querys[y] || typeof querys[y] == 'number') {
       if (y == 'status' || y == 'type' || y == 'companyId') x[y] = Number(querys[y]);
-      else if (y == 'startTime' || y == 'endTime') x[y] = new Date(querys[y]).getTime();
+      else if (y == 'startTime' || y == 'endTime') x[y] = new Date(querys[y]).getTime() / 1000;
       else x[y] = querys[y];
     }
     return x;
   }, {});
-  // 1. 初始化查询对象
-  const query = Object.keys(queryArr).length == 0 ? db.contracts.toCollection() : db.contracts.where(queryArr);
-  const reversedQuery = query.reverse();
+  const { startTime, endTime, ...queryArrNoTimes } = queryArr;
+  let collection;
+  if (startTime && endTime) {
+    collection = db.contracts.where('startTime').between(startTime, endTime, true, true);
+    if (Object.keys(queryArrNoTimes).length > 0) {
+      collection = collection.and(item => {
+        return Object.keys(queryArrNoTimes).every(key => item[key as 'id'] === queryArrNoTimes[key]);
+      });
+    }
+  } else {
+    collection = Object.keys(queryArr).length == 0 ? db.contracts.toCollection() : db.contracts.where(queryArr);
+  }
+  const reversedQuery = collection.reverse();
   const [total, list] = await Promise.all([
     reversedQuery.count(),
     reversedQuery
@@ -187,8 +196,8 @@ httpRequest.post('/user/addContract', async (req, res) => {
     contract!.type = type;
     contract!.price = price.toString();
     contract!.companyId = companyId;
-    contract!.startTime = startTime;
-    contract!.endTime = endTime;
+    contract!.startTime = new Date(startTime).getTime() / 1000;
+    contract!.endTime = new Date(endTime).getTime() / 1000;
     contract!.updateAt = Date.now();
     contract!.status = Number(status);
     await db.contracts.update(contract!.id, contract!);

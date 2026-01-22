@@ -37,8 +37,8 @@ export interface IContract {
   type: number; // 1 项目合同 2 服务合同
   status: number; // 0 待审核 1 审核中 2 审核失败 5 待履行 6 履行中 7 已完成
   price: string;
-  startTime: string;
-  endTime: string;
+  startTime: number;
+  endTime: number;
   companyId: number;
   createAt: number;
   updateAt?: number;
@@ -111,9 +111,9 @@ db.on('populate', () => {
     { name: '大秦集团', createAt: Date.now(), remark: '大秦集团', id: 10002 },
   ]);
   db.contracts.bulkAdd([
-    { name: '修建长城', type: 1, status: 1, price: '1000000', startTime: '2023-01-01', endTime: '2023-12-31', companyId: 10002, createAt: Date.now() },
-    { name: '书同文', type: 1, status: 1, price: '2000000', startTime: '2023-01-01', endTime: '2023-12-31', companyId: 10002, createAt: Date.now() },
-    { name: '下西洋', type: 1, status: 1, price: '2000000', startTime: '2023-01-01', endTime: '2023-12-31', companyId: 10001, createAt: Date.now() },
-    { name: '抗倭', type: 1, status: 1, price: '2000000', startTime: '2023-01-01', endTime: '2023-12-31', companyId: 10001, createAt: Date.now() },
+    { name: '修建长城', type: 1, status: 1, price: '1000000', startTime: 1769047957, endTime: 1769055957, companyId: 10002, createAt: Date.now() },
+    { name: '书同文', type: 1, status: 1, price: '2000000', startTime: 1769047957, endTime: 1769055957, companyId: 10002, createAt: Date.now() },
+    { name: '下西洋', type: 1, status: 1, price: '2000000', startTime: 1769047957, endTime: 1769055957, companyId: 10001, createAt: Date.now() },
+    { name: '抗倭', type: 1, status: 1, price: '2000000', startTime: 1769047957, endTime: 1769055957, companyId: 10001, createAt: Date.now() },
   ]);
 });

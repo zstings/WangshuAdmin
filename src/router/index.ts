@@ -37,7 +37,8 @@ const router = createRouter({
           meta: {
             breadcrumb: (route: any) => {
               // 其他状态不显示面包线具体状态
-              return ['结果页面', { eooro: '失败页', success: '成功页' }[route.query.type as string]];
+              const n = { eooro: '失败页', success: '成功页' }[route.query.type as string];
+              return n ? ['结果页面', n] : ['结果页面'];
             },
           },
         },

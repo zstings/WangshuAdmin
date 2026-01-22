@@ -4,7 +4,11 @@
     <LayoutSidebar />
     <div class="layout-main flex flex-1 flex-col">
       <div class="layout-breadcrumb flex items-center">
-        <span v-for="(name, index) in breadcrumb" :key="index">{{ name }}</span>
+        <el-breadcrumb separator="/">
+          <template v-for="(name, index) in breadcrumb" :key="index">
+            <el-breadcrumb-item>{{ name }}</el-breadcrumb-item>
+          </template>
+        </el-breadcrumb>
       </div>
       <div class="layout-main-auto flex-1">
         <router-view></router-view>
@@ -46,16 +50,5 @@ const breadcrumb = computed(() => {
 .layout-breadcrumb {
   height: 44px;
   font-weight: 600;
-  padding: 10px 0;
-  span {
-    color: #666;
-    font-size: 15px;
-    &:last-child {
-      color: #333;
-    }
-    &:nth-child(2n) {
-      padding: 0 5px;
-    }
-  }
 }
 </style>

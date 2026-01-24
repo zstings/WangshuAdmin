@@ -38,7 +38,6 @@ console.log(`[INFO] 切换到目标分支 ${branch}`);
 // 本地存在就切换过去，没有就创建后切换过去
 execSync(`git checkout -B ${branch}`, buildCwd);
 try {
-  console.log(`[INFO] 远端分支 ${branch} 存在，正在同步`);
   // 判断远端分支是否存在
   execSync(`git rev-parse --verify origin/${branch}`, { ...pipe, ...buildCwd });
   // 如果当前分支就是目标分支，且有修改的话放弃文件追踪和暂存
@@ -53,6 +52,7 @@ try {
     console.log(`[INFO] 本地 ${branch} 比远端领先 ${ahead} 次提交，正在推送`);
     execSync('git push', { ...buildCwd, ...pipe });
   }
+  console.log(`[INFO] 远端分支 ${branch} 存在，正在同步`);
   // 无论当前分支是不是目标分支，只要远端分支存在就切换,会自动同步最新远端
   execSync(`git checkout -B ${branch} origin/${branch}`, { ...pipe, ...buildCwd });
 } catch (_) {

@@ -1,8 +1,9 @@
 import { execSync, exec } from 'node:child_process';
-import { join } from 'node:path';
+import { join, basename } from 'node:path';
 import process from 'process';
 import { mkdirSync, existsSync, rmSync, globSync, cpSync, writeFileSync } from 'node:fs';
 
+console.log(`[INFO] 开始部署...`);
 // 异步执行构建
 const _runBuild = runBuild();
 
@@ -13,7 +14,7 @@ const buildGit = join(buildDir, '.git');
 const pipe = { stdio: 'pipe', encoding: 'utf-8' };
 // const inherit = { stdio: 'inherit', encoding: 'utf-8' };
 const buildCwd = { cwd: buildDir };
-const branch = 'dist';
+const branch = process.argv.find(x => x.startsWith('b:')).replace('b:', '');
 
 // ========== 检查 .docs 是否存在, 不存在就创建 ==========
 if (!existsSync(buildDir)) {
@@ -36,7 +37,7 @@ console.log(`[INFO] 同步所有远端分支`);
 execSync(`git fetch origin --prune`, { ...pipe, ...buildCwd });
 console.log(`[INFO] 切换到目标分支 ${branch}`);
 // 本地存在就切换过去，没有就创建后切换过去
-execSync(`git checkout -B ${branch}`, buildCwd);
+execSync(`git checkout -B ${branch}`, { ...pipe, ...buildCwd });
 try {
   // 判断远端分支是否存在
   execSync(`git rev-parse --verify origin/${branch}`, { ...pipe, ...buildCwd });
@@ -71,7 +72,7 @@ console.log(`[INFO] 目标分支 ${branch} 以准备就绪`);
 globSync(buildDir + '/*').forEach(file => {
   rmSync(file, { recursive: true, force: true });
 });
-console.log(`[INFO] 清空 ${branch} 目录完成`);
+console.log(`[INFO] 清空 ${basename(buildDir)} 目录完成`);
 await _runBuild; // 等待构建完成
 cpSync('./dist', buildDir, { recursive: true });
 console.log('[INFO] 复制 dist 内容完成');
@@ -80,7 +81,7 @@ console.log(`[INFO] 开始提交到${branch}分支`);
 execSync('git add .', { ...buildCwd, ...pipe });
 if (execSync('git status --porcelain', { ...buildCwd, ...pipe }).trim() == '') {
   console.log('[INFO] ✅ 没有新文件 ❤️');
-  process.exit(1);
+  process.exit(0);
 }
 execSync('git commit -m "deploy"', { ...buildCwd, ...pipe });
 execSync(`git push origin ${branch}`, { ...buildCwd, ...pipe });
@@ -88,11 +89,15 @@ console.log('[INFO] ✅ 执行完成 ❤️');
 
 function runBuild() {
   return new Promise((resolve, reject) => {
-    exec('pnpm build', error => {
+    const command = `pnpm ${process.argv.find(x => x.startsWith('c:')).replace('c:', '')}`;
+    console.log(`[INFO] 异步执行 ${command} 构建...`);
+    exec(command, error => {
       if (error) {
         reject(error);
+        console.error(`[ERROR] 异步执行 ${command} 构建失败 ❌`);
         process.exit(1);
       }
+      console.log(`[INFO] 异步执行 ${command} 构建完成 ✅`);
       resolve();
     });
   });

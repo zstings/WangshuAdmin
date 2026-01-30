@@ -67,7 +67,7 @@ try {
   execSync(`git commit -m "新分支初始化"`, { ...pipe, ...buildCwd });
   execSync(`git push origin ${branch}`, { ...pipe, ...buildCwd });
 }
-console.log(`[INFO] 目标分支 ${branch} 以准备就绪`);
+console.log(`[INFO] 目标分支 ${branch} 已准备就绪`);
 // ========== 清空 buildDir 目录 并 复制 dist 内容 ==========
 globSync(buildDir + '/*').forEach(file => {
   rmSync(file, { recursive: true, force: true });
